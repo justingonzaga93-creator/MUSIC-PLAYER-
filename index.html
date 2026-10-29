@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#080710" name="theme-color"/>
+<title>Quantum Music Player v1.1.5</title>
+<link href="manifest.webmanifest" rel="manifest"/>
+<link href="style.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="app">
+<header class="topbar">
+<div class="brand">
+<div class="brand-icon">♫</div>
+<div>
+<h1>Quantum<span>music</span></h1>
+<p>YOUR SOUND. YOUR UNIVERSE. · v1.1.4</p>
+</div>
+</div>
+<button aria-label="Add music" class="icon-btn" id="addTop">＋</button>
+</header>
+<nav aria-label="Main navigation" class="bottom-nav">
+<button aria-current="page" class="nav-item active" data-page="homeView"><span>⌂</span><small>Home</small></button>
+
+<button class="nav-item" data-page="onlineView"><span>◎</span><small>Online</small></button>
+<button class="nav-item" data-page="settingsView"><span>⚙</span><small>More</small></button>
+</nav>
+<main class="page-stack">
+<section class="page-view active" id="homeView">
+<section class="welcome home-hero">
+<p class="eyebrow">YOUR PERSONAL SOUNDSPACE</p>
+<h2>Feel the <span>frequency.</span></h2>
+<p class="subtext">Your music, your mood, your universe.</p>
+</section>
+<section class="home-welcome-card" hidden="" id="homeWelcomeEmpty">
+<div class="home-welcome-art"><span>♫</span><i></i></div>
+<p class="eyebrow">YOUR JOURNEY STARTS HERE</p>
+<h3>Build your soundspace.</h3>
+<p>Import music from your device to create your personal library. Your tracks will appear here for quick access.</p>
+<button class="primary-btn home-import-btn" id="homeImportBtn" type="button">＋ Import Music</button>
+<small>Your audio stays in this browser's local library.</small>
+</section>
+<div class="home-dashboard" hidden="" id="homeDashboard">
+<section class="home-feature-card">
+<div class="home-feature-copy"><p class="eyebrow">PICK UP WHERE YOU LEFT OFF</p><h3 id="homeFeatureTitle">Your soundtrack awaits</h3><p id="homeFeatureArtist">Choose a track from your library.</p><button class="home-feature-play" id="homeFeaturePlayBtn" type="button"><span>▶</span> Play current track</button></div>
+<div class="home-feature-disc"><span>♫</span><i></i></div>
+</section>
+<section class="home-section">
+<div class="home-section-heading"><div><p class="eyebrow">BACK TO THE BEAT</p><h3>Recently Played</h3></div><button class="text-action" id="homeRecentViewBtn" type="button">View all ›</button></div>
+<div class="home-track-list" id="homeRecentList"></div>
+</section>
+<section class="home-section">
+<div class="home-section-heading"><div><p class="eyebrow">FRESH IN YOUR LIBRARY</p><h3>Recently Added</h3></div><button class="text-action" id="homeAddedViewBtn" type="button">View all ›</button></div>
+<div class="home-track-list" id="homeAddedList"></div>
+</section>
+<section class="home-stats-panel">
+<div class="home-section-heading"><div><p class="eyebrow">YOUR LISTENING SPACE</p><h3>At a glance</h3></div></div>
+<div class="home-stats-grid">
+<div class="home-stat"><span>♫</span><strong id="homeStatSongs">0</strong><small>Songs</small></div>
+<div class="home-stat"><span>♥</span><strong id="homeStatFavorites">0</strong><small>Favorites</small></div>
+<div class="home-stat"><span>▤</span><strong id="homeStatPlaylists">0</strong><small>Playlists</small></div>
+</div>
+</section>
+<button class="home-add-more" id="homeAddMoreBtn" type="button"><span>＋</span><span><strong>Add more music</strong><small>Bring new tracks into your soundspace</small></span><b>›</b></button>
+</div>
+
+<section class="library" id="homeLibrarySection">
+<div class="section-heading">
+<div>
+<p class="eyebrow">YOUR COLLECTION</p>
+<h2>My Library <span id="songCount">(0)</span></h2>
+</div>
+<button class="add-btn" id="addBtn">＋ Add songs</button>
+</div>
+<div class="library-tools">
+<div aria-label="Library filter" class="filter-tabs" role="group">
+<button aria-pressed="true" class="filter-tab active" data-filter="all">All songs</button>
+<button aria-pressed="false" class="filter-tab" data-filter="favorites">♥ Favorites</button>
+</div>
+<button class="add-btn secondary-add" id="createPlaylistBtn">＋ Playlist</button>
+</div>
+<div aria-label="Your playlists" class="playlist-chips" id="playlistChips"></div>
+<div class="search-wrap">
+<span>⌕</span>
+<input aria-label="Search music" id="searchInput" placeholder="Search your music..." type="search"/>
+</div>
+<div class="empty-state" id="emptyState">
+<div class="empty-icon">♫</div>
+<h3>Your library is waiting</h3>
+<p>Add music stored on your phone to get started.</p>
+<button class="primary-btn" id="emptyAddBtn">Choose music</button>
+</div>
+<div class="song-list" id="songList"></div>
+</section></section><section aria-label="Now playing" class="page-view playing-view" id="playingView"><div class="page-heading playing-heading"><button class="secondary-action playing-back-btn" id="playingBackBtn" type="button">← Back to Home</button><p class="eyebrow">YOUR SOUNDSPACE</p><h2>Now <span>Playing</span></h2><p class="subtext">Your soundtrack, in motion.</p></div><section class="player-section" id="playerSection">
+
+<section class="player-card">
+<div class="cover-wrap">
+<canvas aria-label="Live audio visualizer" class="visualizer" id="visualizer"></canvas>
+<div aria-label="Album artwork" class="cover" id="cover">
+<img alt="Album artwork" class="cover-image" hidden="" id="coverImage"/>
+<div class="cover-orb"></div>
+<div class="cover-equalizer">
+<i></i><i></i><i></i><i></i><i></i>
+</div>
+<span class="cover-note">♫</span>
+<div class="cover-label">Quantum / AUDIO</div>
+</div>
+<div class="cover-glow"></div>
+</div>
+<div class="track-info">
+<div class="track-text">
+<h2 id="songTitle">No song selected</h2>
+<p id="songArtist">Choose music from your device</p>
+</div>
+<button aria-label="Favorite song" aria-pressed="false" class="heart-btn" id="favoriteBtn">♡</button>
+</div>
+<div class="timeline">
+<input aria-label="Song progress" id="seekBar" max="1000" min="0" type="range" value="0"/>
+<div class="time-row">
+<span id="currentTime">0:00</span>
+<span id="duration">0:00</span>
+</div>
+</div>
+<div class="controls">
+<button aria-label="Shuffle" aria-pressed="false" class="control-btn small" id="shuffleBtn">⤨</button>
+<button aria-label="Previous song" class="control-btn" id="prevBtn">|◀</button>
+<button aria-label="Play" class="play-btn" id="playBtn">▶</button>
+<button aria-label="Next song" class="control-btn" id="nextBtn">▶|</button>
+<button aria-label="Repeat mode" aria-pressed="false" class="control-btn small" id="repeatBtn">↻</button>
+</div>
+<div class="equalizer-launch-wrap">
+<button aria-controls="equalizerOverlay" aria-expanded="false" class="equalizer-launch-btn" id="equalizerLaunchBtn" type="button"><span class="equalizer-launch-icon" aria-hidden="true">☷</span><span class="equalizer-launch-copy"><strong>Equalizer</strong><small>Adjust volume, bass and tone</small></span><span class="equalizer-launch-chevron" aria-hidden="true">⌄</span></button>
+</div>
+<div class="sleep-launch-wrap">
+<button aria-controls="sleepTimerOverlay" aria-expanded="false" class="equalizer-launch-btn sleep-launch-btn" id="sleepTimerLaunchBtn" type="button"><span class="equalizer-launch-icon" aria-hidden="true">☾</span><span class="equalizer-launch-copy"><strong>Sleep Timer</strong><small>Stop playback after a set time</small></span><span class="equalizer-launch-chevron" aria-hidden="true">⌄</span></button>
+</div>
+<div aria-hidden="true" class="equalizer-overlay sleep-timer-overlay" hidden id="sleepTimerOverlay">
+<div aria-labelledby="sleepTimerDialogTitle" aria-modal="true" class="equalizer-dialog sleep-timer-dialog" role="dialog" tabindex="-1">
+<div class="equalizer-dialog-heading"><div><p class="eyebrow">REST EASY</p><h3 id="sleepTimerDialogTitle">Sleep Timer</h3></div><button aria-label="Close sleep timer" class="equalizer-close-btn" id="sleepTimerCloseBtn" type="button">×</button></div>
+<p class="sleep-timer-description">Choose when Quantum should pause your music.</p>
+<div class="sleep-panel">
+<label for="sleepSelect">☾ Sleep timer</label>
+<div class="sleep-controls">
+<select aria-label="Sleep timer duration" id="sleepSelect">
+<option value="0">Off</option>
+<option value="5">5 minutes</option>
+<option value="10">10 minutes</option>
+<option value="15">15 minutes</option>
+<option value="30">30 minutes</option>
+<option value="45">45 minutes</option>
+<option value="60">60 minutes</option>
+<option value="90">90 minutes</option>
+</select>
+<span id="sleepCountdown">Timer off</span>
+</div>
+</div>
+</div>
+</div>
+<div aria-hidden="true" class="equalizer-overlay" hidden id="equalizerOverlay">
+<div aria-labelledby="equalizerDialogTitle" aria-modal="true" class="equalizer-dialog" role="dialog" tabindex="-1">
+<div class="equalizer-dialog-heading"><div><p class="eyebrow">PERSONALIZE YOUR SOUND</p><h3 id="equalizerDialogTitle">Sound controls</h3></div><button aria-label="Close equalizer" class="equalizer-close-btn" id="equalizerCloseBtn" type="button">×</button></div>
+<section aria-label="Audio controls" class="audio-controls-panel">
+<div class="audio-control-row volume-control-row">
+<span aria-hidden="true" class="audio-control-icon">◖))</span>
+<div class="audio-control-label"><strong>Volume</strong><output id="volumeValue">80%</output></div>
+<input aria-label="Volume" aria-valuetext="80 percent" id="volumeBar" max="100" min="0" type="range" value="80"/>
+<button aria-label="Mute volume" aria-pressed="false" class="audio-icon-button" id="muteBtn" type="button">◖))</button>
+</div>
+<div class="audio-control-row">
+<span aria-hidden="true" class="audio-control-icon">≋</span>
+<div class="audio-control-label"><strong>Bass boost</strong><output id="bassValue">0 dB</output></div>
+<input aria-label="Bass equalizer band" class="setting-range" id="bassRange" max="12" min="-12" type="range" value="0"/>
+<span aria-hidden="true" class="audio-value-icon">〰</span>
+</div>
+<div class="audio-control-row eq-band-row">
+<span aria-hidden="true" class="audio-control-icon">〰</span>
+<div class="audio-control-label"><strong>Low-mid · 250 Hz</strong><output id="lowMidValue">0 dB</output></div>
+<input aria-label="Low-mid equalizer band" class="setting-range" id="lowMidRange" max="12" min="-12" type="range" value="0"/>
+<span aria-hidden="true" class="audio-value-icon">〰</span>
+</div>
+<div class="audio-control-row eq-band-row">
+<span aria-hidden="true" class="audio-control-icon">≋</span>
+<div class="audio-control-label"><strong>Mid · 1 kHz</strong><output id="midValue">0 dB</output></div>
+<input aria-label="Mid equalizer band" class="setting-range" id="midRange" max="12" min="-12" type="range" value="0"/>
+<span aria-hidden="true" class="audio-value-icon">〰</span>
+</div>
+<div class="audio-control-row eq-band-row">
+<span aria-hidden="true" class="audio-control-icon">☷</span>
+<div class="audio-control-label"><strong>High-mid · 4 kHz</strong><output id="highMidValue">0 dB</output></div>
+<input aria-label="High-mid equalizer band" class="setting-range" id="highMidRange" max="12" min="-12" type="range" value="0"/>
+<span aria-hidden="true" class="audio-value-icon">〰</span>
+</div>
+<div class="audio-control-row">
+<span aria-hidden="true" class="audio-control-icon">☷</span>
+<div class="audio-control-label"><strong>Treble</strong><output id="trebleValue">0 dB</output></div>
+<input aria-label="Treble equalizer band" class="setting-range" id="trebleRange" max="12" min="-12" type="range" value="0"/>
+<span aria-hidden="true" class="audio-value-icon">〰</span>
+</div>
+<div class="audio-control-row preset-row">
+<span aria-hidden="true" class="audio-control-icon">☷</span>
+<div class="audio-control-label"><strong>Equalizer</strong><small>Audio preset</small></div>
+<select aria-label="Equalizer preset" class="wide-select" id="eqPreset">
+<option value="normal">Normal</option>
+<option value="bass">Bass Boost</option>
+<option value="treble">Treble Boost</option>
+<option value="vocal">Vocal</option>
+<option value="balanced">Balanced</option>
+</select>
+</div>
+<p class="feature-note">5-band equalizer and presets affect local playback where supported by your browser.</p>
+</section>
+</div>
+</div>
+<div class="artwork-actions artwork-actions-panel">
+<button class="artwork-action custom-artwork-action" id="customArtworkBtn"><span aria-hidden="true">▧</span><span><strong>Custom Artwork</strong><small>Choose cover art</small></span><b aria-hidden="true">›</b></button>
+<span aria-hidden="true" class="artwork-action-divider"></span>
+<button class="artwork-action reset-artwork-action" id="resetArtworkBtn"><span aria-hidden="true">↻</span><span><strong>Reset Cover</strong><small>Restore artwork</small></span><b aria-hidden="true">›</b></button>
+</div>
+</section>
+</section></section>
+<section class="page-view" id="onlineView">
+<div class="page-heading"><p class="eyebrow">DISCOVER SOMETHING NEW</p><h2>YouTube <span>Online</span></h2><p class="subtext">Search songs and play videos from YouTube.</p></div>
+<section class="online-panel">
+<div class="online-note"><strong>Search and play</strong><p>Search YouTube videos and play them here. Search is provided by the Quantum Music Search server; no API key is needed in the app.</p></div>
+<form class="online-search-form" id="youtubeSearchForm">
+<label class="setting-label" for="youtubeQuery">Search YouTube</label>
+<div class="online-search-row"><input class="online-input" id="youtubeQuery" maxlength="100" placeholder="Search songs, artists, music…" required="" type="search"/><button class="primary-btn" id="youtubeSearchBtn" type="submit">Search</button></div>
+</form>
+<p aria-live="polite" class="online-status" id="youtubeStatus" role="status">Search YouTube without entering an API key.</p>
+<div class="youtube-player-wrap" hidden="" id="youtubePlayerWrap">
+<div class="youtube-player-frame"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" id="youtubePlayer" referrerpolicy="strict-origin-when-cross-origin" title="YouTube video player"></iframe></div>
+<p class="youtube-player-note">Playback is provided by YouTube. Some videos may be unavailable for embedding.</p>
+</div>
+<div aria-live="polite" class="youtube-results" id="youtubeResults"></div>
+</section>
+</section>
+<section class="page-view" id="settingsView">
+<div class="page-heading"><p class="eyebrow">YOUR APP, YOUR WAY</p><h2>Settings <span>&amp; More</span></h2><p class="subtext">Playback options, storage information and credits.</p></div>
+<div class="theme-settings-panel">
+<div class="panel-title"><strong>Appearance</strong><span>THEME</span></div>
+<label class="setting-label" for="themeSelect">Color theme</label>
+<select class="wide-select" id="themeSelect">
+<option value="quantum">Quantum Purple</option>
+<option value="ocean">Ocean Blue</option>
+<option value="ember">Solar Ember</option>
+<option value="mono">Midnight Mono</option>
+</select>
+</div>
+<button class="secure-settings-entry" id="openSecureSettingsBtn" type="button"><span class="secure-entry-icon">⌑</span><span class="secure-entry-copy"><strong>Secure Settings</strong><small>YouTube search server connection</small></span><span class="secure-entry-arrow">›</span></button>
+
+<div class="about-panel">
+<div class="panel-title"><strong>About &amp; Legal</strong><span>v1.1.0</span></div>
+<details><summary>Privacy Policy</summary><p>Quantum Music Player processes selected audio files locally in this browser. Imported audio and library records are saved in this browser's site storage when available. This app does not intentionally upload your music to a developer server. Browser storage can be cleared by your device or browser, so keep original audio files and use backup controls where available.</p></details>
+<details><summary>App Permissions</summary><p>The app requests access only to files you choose through the system file picker. Audio playback and visualizer features use browser media and audio APIs when supported.</p></details>
+<details><summary>Data &amp; Storage</summary><p>Your library is tied to this browser and app origin. Clearing site data, using private browsing, or opening a different app address may make saved items unavailable. Playlist entries refer to songs saved in this app's library.</p></details>
+<details><summary>Security &amp; Backup</summary><p>Keep a copy of your original audio files. Export a library backup before major updates when backup is available. A library backup may contain song records and artwork but may not include every original audio file depending on browser limits.</p></details>
+<details><summary>App Updates</summary><p>Quantum Music Player v1.1.1. Keep the same app origin when updating to help preserve browser-stored data.</p></details>
+<details><summary>Contact Developer</summary><p>No contact address is configured in this version.</p></details>
+<div class="credit-card"><p class="eyebrow">CREATOR CREDITS</p><strong>★Create by "Justin Gonzaga"</strong><span>|•Qauntum Squad•|</span></div>
+<div class="data-actions"><button class="secondary-action" id="exportBackupBtn">Export library backup</button><button class="secondary-action" id="importBackupBtn">Restore backup</button><button aria-pressed="false" class="secondary-action" id="reducedMotionBtn">Reduced motion: Off</button></div>
+<p class="legal-note">Backup and restore operate on app library records. Always keep your original audio files separately.</p>
+</div>
+</section>
+<section class="page-view" id="secureSettingsView">
+<div class="page-heading"><p class="eyebrow">PRIVATE CONFIGURATION</p><h2>Secure <span>Settings</span></h2><p class="subtext">Check the server connection used for online search.</p></div>
+<button class="secondary-action secure-back-btn" id="backFromSecureSettingsBtn" type="button">← Back to Settings</button>
+<section class="online-panel secure-key-panel">
+<div class="secure-lock-heading"><span class="secure-lock-icon">⌑</span><div><strong>YouTube Online Search</strong><p>Cloudflare Worker connection</p></div><span class="secure-state" id="youtubeKeyState">Checking</span></div>
+<div class="online-note"><strong>No API key required</strong><p>Online search connects to your Cloudflare Worker. Your YouTube API key is kept in the Worker secret settings and is not stored in this app.</p></div>
+<p aria-live="polite" class="online-status" id="secureYoutubeStatus" role="status">Online search uses the Quantum Music Search server.</p>
+</section>
+</section>
+
+<p aria-live="polite" class="status global-status" id="status" role="status">Ready for your soundtrack</p>
+</main>
+<div aria-label="Mini player" class="mini-player" hidden="True" id="miniPlayer"><div class="mini-player-art" id="miniPlayerArt">♫</div><button aria-label="Open now playing" class="mini-player-meta" id="miniPlayerOpen" type="button"><strong id="miniPlayerTitle">No song selected</strong><small id="miniPlayerArtist">Choose a song</small></button><button aria-label="Play" class="mini-player-toggle" id="miniPlayerToggle" type="button">▶</button></div><footer>
+<div class="footer-logo">✦ Quantum MUSIC</div>
+<p>MADE FOR YOUR FREQUENCY</p>
+</footer>
+</div>
+<input accept="audio/*,.mp3,.m4a,.aac,.wav,.ogg,.flac,.opus" hidden="" id="fileInput" multiple="" type="file"/>
+<input accept="image/*" hidden="" id="artworkInput" type="file"/>
+<input accept="application/json,.json" hidden="" id="backupInput" type="file"/>
+<audio id="audio" preload="metadata"></audio>
+<script src="script.js"></script>
+<script>if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("service-worker.js").catch(() => {});</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "Quantum Music Player v1.1.2",
+  "short_name": "Quantum Music",
+  "description": "Your sound. Your universe. Offline-first local music player.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#06101b",
+  "theme_color": "#06101b",
+  "orientation": "portrait"
+}
